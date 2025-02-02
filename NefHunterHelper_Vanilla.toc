@@ -1,0 +1,7 @@
+## Interface: 11302
+## Title: NefHunterHelper
+## Author: waggz81
+## Notes: Adds /unequipranged command for hunters to not break their ranged weapon on Nef class call
+## Version: 0.1
+
+main_Vanilla.lua
