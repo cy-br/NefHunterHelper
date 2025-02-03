@@ -1,26 +1,37 @@
 NefHunterHelper = { }
 
-local function GetBagWithFreeSlot()
+local function GetEmptyBagSlot ()
+	found,j = nil
+
 	for bag = 0, 4 do
-		local numberOfFreeSlots, bagType = C_Container.GetContainerNumFreeSlots(bag)
-		if (bagType == 0 and numberOfFreeSlots ~= 0) then
-			return bag
+		numberOfFreeSlots, BagType = GetContainerNumFreeSlots(bag);
+		if (BagType == 0 and numberOfFreeSlots ~= 0)
+		then
+			for slot = 1, GetContainerNumSlots(bag) do 
+				name=GetContainerItemLink(bag,slot);
+				if name==nil 
+				then 
+					found = true;
+					break;
+				end
+			end
+			if found == true
+			then
+				j=bag;
+				break;
+			end
 		end
 	end
-	return nil
+	return j
 end
 
 SLASH_NEFHUNTERHELPER1 = "/unequipranged"
 SlashCmdList["NEFHUNTERHELPER"] = function(msg, editBox)
-	local bag = GetBagWithFreeSlot()
-	if bag == nil then
-		print("No empty bag slots")
-		return
-	end
-	PickupInventoryItem(18)
-	if bag == 0 then
-		PutItemInBackpack()
+	PickupInventoryItem(18);
+	slot = GetEmptyBagSlot();
+	if slot == 0 then
+		PutItemInBackpack();
 	else
-		PutItemInBag(bag+30)
+		PutItemInBag(slot+19);
 	end
 end
